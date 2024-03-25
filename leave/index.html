@@ -5,9 +5,6 @@
   <title>jsQR Demo</title>
   <script src="./src/jsQR.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Ropa+Sans" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-  <link rel="stylesheet" href="./src/sweetalert2.min.css">
 
   <style>
     body {
@@ -63,9 +60,9 @@
 
   <div id="loadingMessage">🎥 Unable to access video stream (please make sure you have a webcam enabled)</div>
   <canvas id="canvas" hidden></canvas>
-  <div id="output" hidden>
-    <div id="outputMessage">No QR code detected.</div>
-    <div hidden><b>Data:</b> <span id="outputData"></span></div>
+  <div id="output" class="null">
+    <div id="outputtitle" class="outputtitle"></div>
+    <div id="outputmsg" class="outputmsg"></div>
   </div>
   <script>
     let dataold = ""
@@ -74,10 +71,9 @@
     var canvasElement = document.getElementById("canvas");
     var canvas = canvasElement.getContext("2d");
     var loadingMessage = document.getElementById("loadingMessage");
-    var outputContainer = document.getElementById("output");
-    var outputMessage = document.getElementById("outputMessage");
-    var outputData = document.getElementById("outputData");
-
+    let out = document.getElementById("output");
+    let outtitle = document.getElementById("outputtitle");
+    let outmsg = document.getElementById("outputmsg");
     function drawLine(begin, end, color) {
       canvas.beginPath();
       canvas.moveTo(begin.x, begin.y);
@@ -94,14 +90,11 @@
       video.play();
       requestAnimationFrame(tick);
     });
-
     function tick() {
       loadingMessage.innerText = "⌛ Loading video..."
       if (video.readyState === video.HAVE_ENOUGH_DATA) {
         loadingMessage.hidden = true;
         canvasElement.hidden = false;
-        outputContainer.hidden = false;
-
         canvasElement.height = video.videoHeight;
         canvasElement.width = video.videoWidth;
         canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
@@ -114,9 +107,6 @@
           drawLine(code.location.topRightCorner, code.location.bottomRightCorner, "#FF3B58");
           drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, "#FF3B58");
           drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, "#FF3B58");
-          outputMessage.hidden = true;
-          outputData.parentElement.hidden = false;
-          outputData.innerText = code.data
           if (code.data.includes("mcsa")) {
             if (dataold != code.data) {
               dataold = code.data
@@ -130,65 +120,36 @@
       requestAnimationFrame(tick);
     }
     function fetchData(data) {
-      // 組合 URL
       const url = `https://pass.mcsa.tw/api_check.php?code=${encodeURIComponent(data)}&leave`;
-
-      // 使用 Fetch API 發送 GET 請求
       fetch(url)
         .then(response => {
-          // 檢查響應是否成功
           if (!response.ok) {
             throw new Error('Network response was not ok');
           }
-          // 將回應解析為 JSON
           return response.json();
         })
-        .then(data => {
-          // 處理 JSON 資料
-          console.log(data);
-          // let res = JSON.parse(data)
-          // 假设您有一个包含状态的对象
-          var response = data
-
-          // 判断状态
+        .then(response => {
           if (response.hasOwnProperty("error")) {
+            out.classList.replace("success", "error");
+            out.classList.replace("null", "");
             if (response.error === "code") {
-              Swal.fire({
-                title: "錯誤",
-                text: "未知的QR-Code",
-                icon: "error"
-              });
+              outtitle.innerHTML = "錯誤";
+              outmsg.innerHTML = "未知的QR-Code";
             } else if (response.error === "expired") {
-              Swal.fire({
-                title: "錯誤",
-                text: "QR-Code已過期",
-                icon: "error"
-              });
+              outtitle.innerHTML = "錯誤";
+              outmsg.innerHTML = "QR-Code已過期";
             } else if (response.error === "used") {
-              Swal.fire({
-                title: "錯誤",
-                text: `你在${response.date}已經進去過了`,
-                icon: "error"
-              });
+              outtitle.innerHTML = "錯誤";
+              outmsg.innerHTML = `你在${response.date}已經進去過了`;
             }
           } else if (response.hasOwnProperty("stuid")) {
-            Swal.fire({
-              title: "成功",
-              text: `學號為：${response.stuid}`,
-              icon: "success"
-            });
-          } else {
-            Swal.fire({
-              title: "錯誤",
-              text: "伺服器錯誤",
-              icon: "error"
-            });
+            out.classList.replace("error", "success");
+            out.classList.replace("null", "");
+            outtitle.innerHTML = "成功";
+            outmsg.innerHTML = `學號為：${response.stuid}`;
           }
-
-          // 在這裡進行其他操作，比如更新網頁上的內容
         })
         .catch(error => {
-          // 捕獲錯誤並進行處理
           console.error('There was a problem with your fetch operation:', error);
         });
     }
