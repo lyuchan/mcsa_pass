@@ -61,6 +61,18 @@
 			font-size: 18px;
 		}
 
+		#topbar {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			color: #FFF;
+			background: #333;
+			font-size: 18px;
+			padding: 10px 0;
+			text-align: center;
+		}
+
 		#output {
 			position: fixed;
 			bottom: 0;
@@ -81,7 +93,8 @@
 </head>
 
 <body>
-
+	<div id="topbar"></div>
+	<br>
 	<div id="loadingMessage">🎥 Unable to access video stream (please make sure you have a webcam enabled)</div>
 	<canvas id="canvas" hidden></canvas>
 	<div id="output" class="null">
@@ -98,6 +111,7 @@
 		let out = document.getElementById("output");
 		let outtitle = document.getElementById("outputtitle");
 		let outmsg = document.getElementById("outputmsg");
+		let topbar = document.getElementById("topbar");
 		function drawLine(begin, end, color) {
 			canvas.beginPath();
 			canvas.moveTo(begin.x, begin.y);
@@ -142,12 +156,17 @@
 			}
 			requestAnimationFrame(tick);
 		}
+		if (window.location.href.includes("leave")) {
+			topbar.innerHTML = '離場紀錄';
+		} else{
+			topbar.innerHTML = '入場驗票';
+		}
 		function fetchData(data) {
 			let url = ""
 			if (window.location.href.includes("leave")) {
 				url = `https://pass.mcsa.tw/api_check.php?code=${encodeURIComponent(data)}&leave`;
-			}else{
-				`https://pass.mcsa.tw/api_check.php?code=${encodeURIComponent(data)}`;
+			} else {
+				url = `https://pass.mcsa.tw/api_check.php?code=${encodeURIComponent(data)}`;
 			}
 
 			fetch(url)
