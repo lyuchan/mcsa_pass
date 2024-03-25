@@ -116,9 +116,11 @@
           outputMessage.hidden = true;
           outputData.parentElement.hidden = false;
           outputData.innerText = code.data
-          if (dataold != code.data) {
-            dataold = code.data
-            fetchData(dataold)
+          if (code.datt.includes("mcsa")) {
+            if (dataold != code.data) {
+              dataold = code.data
+              fetchData(dataold)
+            }
           }
 
 
