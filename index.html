@@ -95,7 +95,7 @@
 <body>
 	<div id="topbar"></div>
 	<br>
-	<div id="loadingMessage">🎥 Unable to access video stream (please make sure you have a webcam enabled)</div>
+	<div id="loadingMessage">🎥 請先開啟相機權限</div>
 	<canvas id="canvas" hidden></canvas>
 	<div id="output" class="null">
 		<div id="outputtitle" class="outputtitle">驗票中</div>
@@ -128,7 +128,7 @@
 			requestAnimationFrame(tick);
 		});
 		function tick() {
-			loadingMessage.innerText = "⌛ Loading video..."
+			loadingMessage.innerText = "⌛ 請稍候..."
 			if (video.readyState === video.HAVE_ENOUGH_DATA) {
 				loadingMessage.hidden = true;
 				canvasElement.hidden = false;
@@ -157,7 +157,7 @@
 			requestAnimationFrame(tick);
 		}
 		if (window.location.href.includes("leave")) {
-			topbar.innerHTML = '離場紀錄';
+			topbar.innerHTML = '離場登記';
 		} else{
 			topbar.innerHTML = '入場驗票';
 		}
