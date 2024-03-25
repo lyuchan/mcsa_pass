@@ -73,7 +73,7 @@
 		}
 
 		.success {
-			color: #e74c3c;
+			color: #1abc9c;
 		}
 	</style>
 </head>
@@ -161,20 +161,20 @@
 					out.classList.remove("null")
 					out.classList.remove("success")
 					if (response.error === "code") {
-						outtitle.innerHTML = "錯誤";
+						outtitle.innerHTML = "驗證失敗";
 						outmsg.innerHTML = "未知的 QR Code";
 					} else if (response.error === "expired") {
-						outtitle.innerHTML = "錯誤";
+						outtitle.innerHTML = "驗證失敗";
 						outmsg.innerHTML = "QR Code 已過期";
 					} else if (response.error === "used") {
-						outtitle.innerHTML = "錯誤";
+						outtitle.innerHTML = "驗證失敗";
 						outmsg.innerHTML = `已於 ${response.date} 進入過`;
 					}
 				} else if (response.hasOwnProperty("stuid")) {
 					out.classList.remove("error")
 					out.classList.remove("null")
 					out.classList.add("success")
-					outtitle.innerHTML = "成功";
+					outtitle.innerHTML = "驗證成功";
 					outmsg.innerHTML = `學號為：${response.stuid}`;
 				}
 			})
