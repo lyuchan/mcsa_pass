@@ -89,6 +89,10 @@
 		.success {
 			background: #1abc9c!important;
 		}
+
+		a {
+			color: #3498db;
+		}
 	</style>
 </head>
 
@@ -157,9 +161,9 @@
 			requestAnimationFrame(tick);
 		}
 		if (window.location.href.includes("leave")) {
-			topbar.innerHTML = '離場登記';
+			topbar.innerHTML = '離場登記 <a href="./">切換</a>';
 		} else{
-			topbar.innerHTML = '入場驗票';
+			topbar.innerHTML = '入場驗票 <a href="./?leave">切換</a>';
 		}
 		function fetchData(data) {
 			let url = ""
