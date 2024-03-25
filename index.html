@@ -199,7 +199,7 @@
 					out.classList.remove("error")
 					out.classList.remove("null")
 					out.classList.add("success")
-					outtitle.innerHTML = "驗證成功";
+					outtitle.innerHTML = window.location.href.includes("leave") ? "已紀錄離場":"驗證成功";
 					outmsg.innerHTML = `學號為：${response.stuid}`;
 				}
 			})
