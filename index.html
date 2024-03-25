@@ -61,6 +61,13 @@
 			font-size: 18px;
 		}
 
+		#output {
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+		}
+
 		.error {
 			color: #e74c3c;
 		}
@@ -76,8 +83,8 @@
 	<div id="loadingMessage">🎥 Unable to access video stream (please make sure you have a webcam enabled)</div>
 	<canvas id="canvas" hidden></canvas>
 	<div id="output" class="null">
-		<div id="outputtitle" class="outputtitle">123</div>
-		<div id="outputmsg" class="outputmsg">123</div>
+		<div id="outputtitle" class="outputtitle"></div>
+		<div id="outputmsg" class="outputmsg"></div>
 	</div>
 	<script>
 
