@@ -124,7 +124,7 @@
     }
     function fetchData(data) {
       // 組合 URL
-      const url = `https://pass.mcsa.tw/api_check.php?code=${encodeURIComponent(data)}`;
+      const url = `https://pass.mcsa.tw/api_check.php?code=${encodeURIComponent(data)}&leave`;
 
       // 使用 Fetch API 發送 GET 請求
       fetch(url)
