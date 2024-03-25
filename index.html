@@ -129,8 +129,9 @@
         })
         .then(response => {
           if (response.hasOwnProperty("error")) {
-            out.classList.replace("success", "error");
-            out.classList.replace("null", "");
+            out.classList.add("error")
+            out.classList.remove("null")
+            out.classList.remove("success")
             if (response.error === "code") {
               outtitle.innerHTML = "錯誤";
               outmsg.innerHTML = "未知的QR-Code";
@@ -142,8 +143,9 @@
               outmsg.innerHTML = `你在${response.date}已經進去過了`;
             }
           } else if (response.hasOwnProperty("stuid")) {
-            out.classList.replace("error", "success");
-            out.classList.replace("null", "");
+            out.classList.remove("error")
+            out.classList.remove("null")
+            out.classList.add("success")
             outtitle.innerHTML = "成功";
             outmsg.innerHTML = `學號為：${response.stuid}`;
           }
