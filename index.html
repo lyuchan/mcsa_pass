@@ -198,6 +198,9 @@
             } else if (response.error === "used") {
               outtitle.innerHTML = "驗證失敗";
               outmsg.innerHTML = `已於 ${response.date} 進入過`;
+            } else if (response.error === "no_ticket") {
+              outtitle.innerHTML = "驗證失敗";
+              outmsg.innerHTML = `學號：${response.stuid}　名單中無此人`;
             }
           } else if (response.hasOwnProperty("stuid")) {
             successsound.start();
